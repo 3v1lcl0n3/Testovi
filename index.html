@@ -1,0 +1,397 @@
+<html lang="en">
+  <head>
+	<style>
+	.tekst,#id{
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	
+	}
+	</style>
+	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="true"/>
+	<title>WEBSOCKET Text iink</title>
+	<link rel="stylesheet" href="./dist/myscript.min.css"/>
+	<link rel="stylesheet" href="./examples/examples.css">
+	<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+	<script type="text/javascript" src="./dist/myscript.min.js"></script>
+	
+  </head>
+  
+  <body>	
+  
+  <script>
+  var flag_input = 0;
+  var flag_action = 0;
+  var zadatak = 0;
+  var mod = "tablet"
+  var rijesenje = "";
+  var tekst_prepis = "99";
+  document.onkeydown = keydown; 
+
+	function keydown (evt) { 
+    if (!evt) evt = event; 
+    if (evt.ctrlKey && evt.keyCode === 86) {
+		if (zadatak == 1 && flag_input == 1 && mod == "keyboard"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+		}
+		 
+    } else if (evt.ctrlKey && evt.keyCode === 67) { 
+        if (zadatak == 2 && flag_input == 1 && mod == "keyboard"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+		}
+		
+    } else if (evt.ctrlKey && evt.keyCode === 88) { 
+        if (zadatak == 3 && flag_input == 1 && mod == "keyboard"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+		}
+    } else if (evt.ctrlKey && evt.keyCode === 90) { 
+        if (zadatak == 4 && flag_input == 1 && mod == "keyboard"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+		}
+    } else if (evt.ctrlKey && evt.keyCode === 89) { 
+        if (zadatak == 4 && flag_input == 1 && mod == "keyboard"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+		}
+    }
+
+}
+  
+  function zadatak_cpaste(tekst_zad){
+  zadatak = 1;
+  document.getElementById("ime_zad").innerHTML = "Akcija: Paste";
+  
+  var word_array = tekst_zad.split(" ");
+  var rnd_word = word_array[Math.floor(Math.random() * word_array.length)];
+  rijesenje = rnd_word;
+  //za tipkovnicu i mis
+  if(mod == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci prostor za unos teksta i pritisni kraticu za opciju paste(tipka control + tipka v na tipkovnici)";
+  
+  //za tablet
+  if(mod == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: Napiši rečenicu\" " + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - kopiraj ju izradom geste u obliku trokuta i onda odabirom donjeg prostora i rađenje  geste kvadrata";
+  
+  
+  
+  }
+  
+  
+  /*function zadatak_copy(){
+  zadatak = 2;
+  document.getElementById("ime_zad").innerHTML = "Akcija: Copy";
+  //za tipkovnicu i mis
+  if(mod == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i pritisni kraticu za opciju copy(tipka control + tipka c na tipkovnici)";
+  
+  //za tablet
+  if(mod == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i napravi gestu u obliku slova C";
+  }
+  */
+  function zadatak_cut(){
+  zadatak = 3;
+  document.getElementById("ime_zad").innerHTML = "Akcija: Cut";
+  //za tipkovnicu i mis
+  if(mod == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i pritisni kraticu za opciju cut(tipka control + tipka x na tipkovnici)";
+  
+  //za tablet
+  if(mod == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i napravi gestu u obliku slova X";
+  }
+  
+  function zadatak_undo(){
+  zadatak = 4;
+  document.getElementById("ime_zad").innerHTML = "Akcija: Undo";
+  //za tipkovnicu i mis
+  if(mod == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: pritisni kraticu za opciju undo(tipka control + tipka z na tipkovnici)";
+  
+  //za tablet
+  if(mod == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: napravi gestu u obliku slova u za opciju undo";
+  }
+  
+  function zadatak_redo(){
+  zadatak = 5;
+  document.getElementById("ime_zad").innerHTML = "Akcija: Redo";
+  //za tipkovnicu i mis
+  if(mod == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: pritisni kraticu za opciju re-do(tipka control + tipka y na tipkovnici)"
+  
+  //za tablet
+  if(mod == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: napravi gestu u obliku slova R";
+  }
+  
+  function zad_focus(){
+  flag_input = 1;
+  }
+  
+  function zad_blur(){
+  flag_input = 0;
+  }
+  
+  function kreniTest(){
+  
+  console.log("test");
+  document.getElementById("login").style.visibility = "hidden";
+  document.getElementById("Task_form").style.visbility = "visible";
+  
+  //postavi neki zadatak
+  tekst_prepis = "kratko"
+  zadatak_cpaste(tekst_prepis);
+  
+  }
+  
+  function check(){
+  
+	if(document.getElementById("Task_output").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje) alert("ovo je super?");
+	console.log(document.getElementById("Task_output").value);
+	console.log(tekst_prepis);
+	console.log(document.getElementById("Task_input").value);
+	console.log(rijesenje);
+  }
+  
+  </script>
+  
+  <form id="login">
+  ID:<br>
+  <input type="text" name="identification"><br>
+  <input type="radio" name="input_type" value="Pen" checked> Pen<br>
+  <input type="radio" name="input_type" value="keyboard + Mouse"> Keyboard + Mouse<br>
+  <input type="button" value="let's go" onclick="kreniTest()">
+</form>
+  <div style='text-align: center;' id="Task_form">
+	<h1 class="tekst" id="ime_zad"> Ime Zadatka</h1>
+	<h2 class="tekst" id="opis_zad"> Opis Zadatka</h2>
+	<div  id="action_part">
+		<span>Od ovuda iskopirati:</span> <input type="text" id="Task_output" onfocus="zad_focus()" onblur="zad_blur()">
+		<br>
+		<br>
+		<br>
+		Ovdje prekopirati: <input type="text" id="Task_input" oninput="check()" onkeypress='validate(event)' ><br>
+	</div>
+	<h1 class="tekst" id='result' >Result: </h1>
+	<div>
+  <nav>
+    <div class="button-div">
+      <button id="undo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
+        <img src="./assets/undo.svg">
+      </button>
+      <button id="redo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
+        <img src="./assets/redo.svg">
+      </button>
+    </div>
+    <select id="language"></select>
+  </nav>
+  <div id="editor" touch-action="none"></div>
+</div>
+  </div>
+  <canvas id="gestures_canvas" height="200" width="200">
+  </canvas>
+  <script type="text/javascript" src="./gestures.js" ></script>
+    <script type="text/javascript">
+function callback(name)
+{
+	document.getElementById("result").innerHTML = "Result: " + name;
+	if (zadatak == 1 && flag_input == 1 && mod == "tablet" && name == "Square"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+		}
+	else if (zadatak == 2 && flag_input == 1 && mod == "tablet" && name == "Circle"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+	}
+	else if (zadatak == 3 && flag_input == 1 && mod == "tablet" && name == "Line"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+	}
+	else if (zadatak == 4 && flag_input == 1 && mod == "tablet" && name == "Triangle"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+	}
+	else if (zadatak == 5 && flag_input == 1 && mod == "tablet" && name == "Check"){
+		flag_action = 1;
+		document.getElementById("result").innerHTML = "Gremo dalje";
+	}
+}
+
+var gest = new gestures({
+	debug: true,
+	draw: true,
+	drawColor: "#000000",
+	drawWidth: 5,
+	autoTrack: true,
+	allowRotation: true,
+	inverseShape: true,
+	points: 33
+});
+
+gest.addGesture("Line", [
+	{x: 0, y: 0},
+	{x: 0, y: 100}
+], callback);
+
+gest.addGesture("Square", [
+	{x: 0, y: 0},
+	{x: 200, y: 0},
+	{x: 200, y: 200},
+	{x: 0, y: 200},
+	{x: 0, y: 0}
+], callback);
+
+gest.addGesture("Rectangle", [
+	{x: 0, y: 0},
+	{x: 210, y: 0},
+	{x: 210, y: 100},
+	{x: 0, y: 100},
+	{x: 0, y: 0}
+], callback);
+
+gest.addGesture("ZigZag", [
+	{x: 0, y: 0},
+	{x: 50, y: 87},
+	{x: 100, y: 0},
+	{x: 150, y: 87}
+], callback);
+
+gest.addGesture("Triangle", [
+	{x: 0, y: 0},
+	{x: 100, y: 100},
+	{x: 0, y: 100},
+	{x: 0, y: 0}
+], callback);
+
+gest.addGesture("Equilateral Triangle", [
+	{x: 0, y: 0},
+	{x: 50, y: 87},
+	{x: 100, y: 0},
+	{x: 0, y: 0}
+], callback);
+
+gest.addGesture("Check", [
+	{x: 0, y: 0},
+	{x: 50, y: 50},
+	{x: 100, y: 0},
+], callback);
+
+var x = 0;
+var y = -100;
+var circle = [];
+var totalPoints = 72;
+var step = (Math.PI*2)/totalPoints;
+
+for(var angle = 1; angle < totalPoints; angle++)
+{
+	var newX = x*Math.cos(angle*step)-y*Math.sin(angle*step);
+	var newY = y*Math.cos(angle*step)+x*Math.sin(angle*step);
+	var point = {x: newX, y: newY};
+	circle.push(point);
+}
+
+gest.addGesture("Circle", circle, callback)
+</script>
+<script>
+	function validate(evt) {
+   var theEvent = evt || window.event;
+   var key = theEvent.charCode || theEvent.which;
+	
+   if(key >= 32 && (theEvent.ctrlKey === undefined || !theEvent.ctrlKey)) {
+		if(theEvent.preventDefault) theEvent.preventDefault();
+		else theEvent.returnValue = false;
+	}
+	
+	
+	}
+  var editorElement = document.getElementById('editor');
+
+  var languageElement = document.getElementById('language');
+  var undoElement = document.getElementById('undo');
+  var redoElement = document.getElementById('redo');
+  var resultElement = document.getElementById('export-result');
+  
+  editorElement.addEventListener('changed', function (event) {
+    undoElement.disabled = !event.detail.canUndo;
+    redoElement.disabled = !event.detail.canRedo;
+  });
+
+  editorElement.addEventListener('loaded', function (evt) {
+    /**
+     * Retrieve the list of available recognition languages
+     * @param {Object} The editor recognition parameters
+     */
+    var currentLanguage = evt.target.editor.configuration.recognitionParams.v4.lang;
+    var res = MyScript.getAvailableLanguageList();
+
+    if (languageElement.options.length === 0) {
+      Object.keys(res.result).forEach(function (key) {
+        var selected = currentLanguage === key;
+        languageElement.options[languageElement.options.length] = new Option(res.result[key], key, selected, selected);
+      });
+    }
+  });
+
+  languageElement.addEventListener('change', function (e) {
+    var configuration = editorElement.editor.configuration;
+    //The path to the language depend of the version of API you are using.
+    configuration.recognitionParams.v4.lang = e.target.value;
+    editorElement.editor.configuration = configuration;
+  });
+
+  undoElement.addEventListener('click', function () {
+    editorElement.editor.undo();
+  });
+  redoElement.addEventListener('click', function () {
+    editorElement.editor.redo();
+  });
+	
+	editorElement.addEventListener('exported', function (evt) {
+        if (evt.detail) {
+        var export_string = JSON.stringify(evt.detail);
+		var num = export_string.search('"text/plain"') + 14;
+		console.log(num);
+		var plain_text = export_string.slice(num);
+		plain_text = plain_text.substring(0, plain_text.lastIndexOf("\""));
+		console.log(plain_text);
+		document.getElementById("Task_output").value = plain_text;
+        } else {
+		  document.getElementById("Task_output").value = '';
+        }
+      });
+  /**
+   * Attach an editor to the document
+   * @param {Element} The DOM element to attach the ink paper
+   * @param {Object} The recognition parameters
+   */
+  MyScript.register(editorElement, {
+    recognitionParams: {
+      type: 'TEXT',
+      protocol: 'WEBSOCKET',
+      apiVersion: 'V4',
+      server: {
+        scheme: 'https',
+        host: 'webdemoapi.myscript.com',
+        applicationKey: '515131ab-35fa-411c-bb4d-3917e00faf60',
+        hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
+      },
+      v4: {
+        export: {
+          jiix: {
+            strokes: true
+          }
+        }
+      }
+    }
+  });
+
+  window.addEventListener('resize', function () {
+    editorElement.editor.resize();
+  });
+</script>
+
+  </body>
+</html>

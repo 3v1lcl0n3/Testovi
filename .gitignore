@@ -1,0 +1,9 @@
+/node_modules/
+**/*.iml
+**/*.idea/
+/bower_components/
+**/*/delivery/
+/test/**/*.xml
+/test/mocha/results/
+/test/nightwatch/results/
+/test/webdriverio/results/
