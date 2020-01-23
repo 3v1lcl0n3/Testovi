@@ -42,6 +42,7 @@
   
 
   var start = performance.now();
+  var rightMouseClicked = false;
   var za_ispis = "";
   var user_log = "";
   var count = 0;
@@ -260,10 +261,10 @@
 		<span id="Task_output" contenteditable="true" tabindex="0">
 		</span>
 		<input type="text" id="Task_output2" onfocus="zad_focus()" onblur="zad_blur()" style="visibility:hidden;" >
-		<br>
-		<br>
-		<br>
-		Ovdje prekopirati: <input type="text"id="Task_input" onfocus="zad_focus()" onblur="zad_blur()" oninput="check()" onkeypress='validate(event)' ><br>
+		<br class="tekst">
+		<br class="tekst">
+		<br class="tekst">
+		<span class="tekst">Ovdje prekopirati: </span><input type="text"id="Task_input" onfocus="zad_focus()" onblur="zad_blur()" oninput="check()" onkeypress='validate(event)' ><br>
 	</div>
 	<h1 class="tekst" id='result' >Result: </h1>
 	<div>
@@ -272,8 +273,8 @@
       <button id="undo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
         <img src="./assets/undo.svg">
       </button>
-      <button id="redo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
-        <img src="./assets/redo.svg">
+      <button style="visibility:hidden;" id="redo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
+        <img src="./assets/redo.svg"> 
       </button>
     </div>
     <select id="language"></select>
@@ -327,18 +328,17 @@ function callback(name)
 		document.getElementById("result").innerHTML = "Gremo dalje";
 	}
 	
-	/*if(name == "Triangle"){
+	if(rightMouseClicked == true && name == "Check"){
 	alert("braw");
 	editorElement.editor.undo();
 	editorElement.editor.undo();
 	}
-	if(name == "Check"){
+	/*if(name == "Check"){
 	alert("nuuh");
 	editorElement.editor.undo();
 	editorElement.editor.redo();
+	}*/
 	
-	}
-	*/
 	
 	if(name == "Triangle"){
 	document.getElementById("result").innerHTML = "Copied";
@@ -461,7 +461,10 @@ for(var angle = 1; angle < totalPoints; angle++)
 gest.addGesture("Circle", circle, callback)
 </script>
 <script>
-	document.addEventListener('contextmenu', event => event.preventDefault());
+	document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+	
+}, false);
 
 
 	function validate(evt) {
@@ -562,6 +565,34 @@ gest.addGesture("Circle", circle, callback)
   window.addEventListener('resize', function () {
     editorElement.editor.resize();
   });
+  //bruh samo mouse ups and downs
+  function handleMouseDown(e) {
+  //e.button describes the mouse button that was clicked
+  // 0 is left, 1 is middle, 2 is right
+  if (e.button === 2) {
+    rightMouseClicked = true;
+  } else if (e.button === 0) {  
+    //Do something if left button was clicked and right button is still pressed
+    if (rightMouseClicked) {
+      console.log('hello');
+      //code
+    }
+  }
+  console.log(rightMouseClicked);
+}
+
+function handleMouseUp(e) {
+  if (e.button === 2) {
+    rightMouseClicked = false;
+  }
+  console.log(rightMouseClicked);
+}
+
+document.addEventListener('mousedown', handleMouseDown);
+document.addEventListener('mouseup', handleMouseUp);
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
   
   
   set_zad();
