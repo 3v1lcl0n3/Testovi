@@ -79,6 +79,12 @@
 
   var student_id = localStorage.getItem('student_id');
   
+  function loggaj(){
+  console.log("tu sam")
+  user_log = user_log + document.getElementById("Task_output2").value + "\n";
+  
+  }
+  
   function downloadResults(string,type) {
 	var blob = new Blob([string], {type: "text/plain;charset=utf-8"});
 	var date = new Date();
@@ -260,7 +266,7 @@
 	<div  id="action_part">
 		<span id="Task_output" contenteditable="true" tabindex="0">
 		</span>
-		<input type="text" id="Task_output2" onfocus="zad_focus()" onblur="zad_blur()" style="visibility:hidden;" >
+		<input type="text" id="Task_output2" onfocus="zad_focus()" onblur="zad_blur()" oninput="loggaj()" style="visibility:hidden;" >
 		<br class="tekst">
 		<br class="tekst">
 		<br class="tekst">
@@ -296,7 +302,7 @@ function callback(name)
 	console.log(flag_action);
 	user_log = user_log + name + "\n";
 	
-	if (zadatak == 1 && flag_input == 1 && device == "tablet" && name == "Square" && flag_action == 1){
+	if (zadatak == 1 && flag_input == 1 && device == "tablet" && name == "Paste" && flag_action == 1 && rightMouseClicked == true){
 		document.getElementById("Task_input").value = clipboard;
 		document.getElementById("result").innerHTML = "Pasted";
 		
@@ -311,7 +317,7 @@ function callback(name)
 		}
 			}
 		}
-	else if (zadatak == 2 && flag_input == 1 && device == "tablet" && name == "Circle"){
+	else if (zadatak == 2 && flag_input == 1 && device == "tablet" && name == "Copy"){
 		flag_action = 1;
 		document.getElementById("result").innerHTML = "Gremo dalje";
 	}
@@ -328,7 +334,7 @@ function callback(name)
 		document.getElementById("result").innerHTML = "Gremo dalje";
 	}
 	
-	if(rightMouseClicked == true && name == "Check"){
+	if(rightMouseClicked == true && name == "Undo"){
 	alert("braw");
 	editorElement.editor.undo();
 	editorElement.editor.undo();
@@ -340,7 +346,7 @@ function callback(name)
 	}*/
 	
 	
-	if(name == "Triangle"){
+	if(rightMouseClicked == true && name == "Copy"){
 	document.getElementById("result").innerHTML = "Copied";
 	flag_input = 1;
 	}
@@ -407,7 +413,7 @@ gest.addGesture("Line", [
 	{x: 0, y: 0},
 	{x: 0, y: 100}
 ], callback);
-
+/*
 gest.addGesture("Square", [
 	{x: 0, y: 0},
 	{x: 200, y: 0},
@@ -423,22 +429,22 @@ gest.addGesture("Rectangle", [
 	{x: 0, y: 100},
 	{x: 0, y: 0}
 ], callback);
-
-gest.addGesture("ZigZag", [
+*/
+gest.addGesture("Undo", [
 	{x: 0, y: 0},
 	{x: 50, y: 87},
 	{x: 100, y: 0},
 	{x: 150, y: 87}
 ], callback);
-
+/*
 gest.addGesture("Triangle", [
 	{x: 0, y: 0},
 	{x: 100, y: 100},
 	{x: 0, y: 100},
 	{x: 0, y: 0}
 ], callback);
-
-gest.addGesture("Check", [
+*/
+gest.addGesture("Paste", [
 	{x: 0, y: 0},
 	{x: 50, y: 50},
 	{x: 100, y: 0},
@@ -458,7 +464,7 @@ for(var angle = 1; angle < totalPoints; angle++)
 	circle.push(point);
 }
 
-gest.addGesture("Circle", circle, callback)
+gest.addGesture("Copy", circle, callback)
 </script>
 <script>
 	document.addEventListener("contextmenu", function(e){
