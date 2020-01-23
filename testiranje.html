@@ -1,6 +1,11 @@
 <html lang="en">
   <head>
 	<style>
+	
+	#Task_form,.tekst{
+	touch-action: none;
+	}
+	
 	.tekst,#id{
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -34,6 +39,8 @@
   <body>	
   
   <script>
+  
+
   var start = performance.now();
   var za_ispis = "";
   var user_log = "";
@@ -44,7 +51,7 @@
   var rijesenje = "";
   var tekst_prepis = "99";
   var clipboard = "";
-  var recenice = ["Materijal za izradu domaćih zadaća je na zajedničkom repozitoriju.", 
+  var recenice = ["Ban", 
 				"Rok za predaju će biti naknadno dogovoren.", 
 				"Pametnim telefonom snimiti očitanja osjetila linearne akceleracije i procjene položaja.", 
 				"Izvori: OpenStreetMap (2019).",  
@@ -68,16 +75,27 @@
   document.onkeydown = keydown; 
   
   var device = localStorage.getItem('device');
-  device = "tablet";
+
   var student_id = localStorage.getItem('student_id');
+  
+  function downloadResults(string,type) {
+	var blob = new Blob([string], {type: "text/plain;charset=utf-8"});
+	var date = new Date();
+	var currentDate = [date.getFullYear(), date.getMonth(), date.getDate()].join('');
+	var currentTime = [date.getHours(), date.getMinutes(), date.getSeconds()].join('');
+	var fileName = type + "_" + student_id + "_" + device + "_" + currentDate + "_" + currentTime + ".csv";
+	saveAs(blob, fileName);
+}
+  
   
   console.log(device, student_id);
   
-	function keydown (evt) { 
+	async function keydown (evt) { 
     if (!evt) evt = event; 
     if (evt.ctrlKey && evt.keyCode === 86) {
 		if (zadatak == 1 && flag_input == 1 && device == "keyboard"){
 		flag_action = 1;
+		//document.getElementById("Task_input").value = await navigator.clipboard.readText();
 		document.getElementById("result").innerHTML = "Gremo dalje";
 		}
 		 
@@ -110,13 +128,17 @@
   function zadatak_cpaste(tekst_zad){
   zadatak = 1;
   document.getElementById("ime_zad").innerHTML = "Akcija: Paste";
-  
+  tekst_prepis = tekst_zad;
   var word_array = tekst_zad.split(" ");
   var rnd_word = word_array[Math.floor(Math.random() * word_array.length)];
   rijesenje = rnd_word;
   //za tipkovnicu i mis
-  if(device == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci prostor za unos teksta i pritisni kraticu za opciju paste(tipka control + tipka v na tipkovnici)";
+  if(device == "keyboard") {
+  document.getElementById("opis_zad").innerHTML = "Zadatak: Napiši rečenicu\" " + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ"+ rnd_word +" kopiraj kraticom ctr + c, oznaci donji prostor i zalijepi kraticom ctrl + v";
+  document.getElementById("Task_output2").style.visibility = "visible";
+  //document.getElementById("Task_input").style.display = "none";
   
+  }
   //za tablet
   if(device == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: Napiši rečenicu\" " + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - kopiraj ju izradom geste u obliku trokuta i onda odabirom donjeg prostora i rađenje  geste kvadrata";
   
@@ -139,8 +161,11 @@
   zadatak = 3;
   document.getElementById("ime_zad").innerHTML = "Akcija: Cut";
   //za tipkovnicu i mis
-  if(device == "keyboard") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i pritisni kraticu za opciju cut(tipka control + tipka x na tipkovnici)";
-  
+  if(device == "keyboard") {
+  document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i pritisni kraticu za opciju cut(tipka control + tipka x na tipkovnici)";
+  document.getElementById("Task_input").style.display = inline;
+  //document.getElementById("Task_input").style.display = none;
+  }
   //za tablet
   if(device == "tablet") document.getElementById("opis_zad").innerHTML = "Zadatak: oznaci tekst untar prozora i napravi gestu u obliku slova X";
   }
@@ -195,12 +220,24 @@
   zadatak_cpaste(recenice[count]);
   count++;
   
+	
   }
   
   
   function check(){
   
 	if(document.getElementById("Task_output").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje) alert("ovo je super?");
+	if(document.getElementById("Task_output2").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje) {
+	set_zad();
+	var time_split =  performance.now();
+	za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s\n";
+	start = time_split;
+	if (count == 2){
+		downloadResults(za_ispis, "Time_Log");
+		downloadResults(user_log, "User_Log");
+	}
+	
+	}
 	console.log(document.getElementById("Task_output").value);
 	console.log(tekst_prepis);
 	console.log(document.getElementById("Task_input").value);
@@ -222,11 +259,11 @@
 	<div  id="action_part">
 		<span id="Task_output" contenteditable="true" tabindex="0">
 		</span>
-		<!--  <input type="text" id="Task_output" style="border: solid blue 1px" onfocus="zad_focus()" onblur="zad_blur()"> -->
+		<input type="text" id="Task_output2" onfocus="zad_focus()" onblur="zad_blur()" style="visibility:hidden;" >
 		<br>
 		<br>
 		<br>
-		Ovdje prekopirati: <input type="text" id="Task_input" onfocus="zad_focus()" onblur="zad_blur()" oninput="check()" onkeypress='validate(event)' ><br>
+		Ovdje prekopirati: <input type="text"id="Task_input" onfocus="zad_focus()" onblur="zad_blur()" oninput="check()" onkeypress='validate(event)' ><br>
 	</div>
 	<h1 class="tekst" id='result' >Result: </h1>
 	<div>
@@ -265,9 +302,12 @@ function callback(name)
 		if(document.getElementById("Task_input").value == rijesenje) {
 		set_zad();
 		var time_split =  performance.now();
-		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s, greške: .\n";
+		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s\n";
 		start = time_split;
-		console.log(za_ispis);
+		if (count == 2){
+			downloadResults(za_ispis, "Time_Log");
+			downloadResults(user_log, "User_Log");
+		}
 			}
 		}
 	else if (zadatak == 2 && flag_input == 1 && device == "tablet" && name == "Circle"){
