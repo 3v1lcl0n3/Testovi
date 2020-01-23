@@ -31,10 +31,14 @@
   var flag_input = 0;
   var flag_action = 0;
   var zadatak = 0;
-  var mod = "tablet"
   var rijesenje = "";
   var tekst_prepis = "99";
   document.onkeydown = keydown; 
+  
+  var device = localStorage.getItem('device');
+  var student_id = localStorage.getItem('student_id');
+  
+  console.log(device, student_id);
 
 	function keydown (evt) { 
     if (!evt) evt = event; 

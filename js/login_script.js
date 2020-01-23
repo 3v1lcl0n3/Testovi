@@ -14,5 +14,8 @@ function startTest() {
 	console.log(id_studenta);
 	console.log(device);
 	
+	localStorage.setItem('student_id', id_studenta);
+	localStorage.setItem('device', device);
+	
 	window.location.href = "testiranje.html";
 }
