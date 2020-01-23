@@ -461,6 +461,9 @@ for(var angle = 1; angle < totalPoints; angle++)
 gest.addGesture("Circle", circle, callback)
 </script>
 <script>
+	document.addEventListener('contextmenu', event => event.preventDefault());
+
+
 	function validate(evt) {
    var theEvent = evt || window.event;
    var key = theEvent.charCode || theEvent.which;
