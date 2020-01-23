@@ -41,7 +41,26 @@
   var rijesenje = "";
   var tekst_prepis = "99";
   var clipboard = "";
-  var array = ["Banana", "Jabuka", "Kruška"];
+  var recenice = ["Materijal za izradu domaćih zadaća je na zajedničkom repozitoriju.", 
+				"Rok za predaju će biti naknadno dogovoren.", 
+				"Pametnim telefonom snimiti očitanja osjetila linearne akceleracije i procjene položaja.", 
+				"Izvori: OpenStreetMap (2019).",  
+				"Naći ćemo se u predvorju Pomorskog fakulteta u Rijeci (prizemlje).",
+				"Pošaljite mail ako je nešto slučajno ostalo nejasno.",
+				"Samo Galaxy S12 može snimati ‘n’ i ‘o’ RINEX datoteke.",
+				"Podaci za Graz se mogu preuzeti s NASA-inog IGS poslužitelja.",
+				"Lokacija objekta je mjesto na kojem se u prostoru informacija i zadanom trenutku nalazi objekt.",
+				"Cilj ove vježbe je uspostaviti radno okruženje R na svom osobnom računalu.",
+				"Potrebni materijal za izradu projekta tokom nastave 18.11.2019. nije postavljen zbog tehničkih razloga.",
+				"Poveznica: rstudio.com/products/rstudio/download/",
+				"Dobra programerska praksa nalaže početak programa (R skripte) s čišćenjem radne površine.",
+				"Iscrtavanje GNSS pogrešaka položaja na OSM karti.",
+				"Tehnološki izazovi: antene, neosjetljivost satelitske navigacije na prirodna i umjetna ometanja…",
+				"Na najljepšem zaljevu na svijetu nema mjesta za jednog od nas!",
+				"Inteligencija - obilježje uspješnog snalaženja u novim situacijama.",
+				"Umjetna inteligencija je interdisciplinarna znanost (uključuje biologiju, fiziku, računarstvo, psihologiju itd.).",
+				"Ovo su tri noge barskog stolca: javne pokretne mreže, postupci određivanja položaja i geoprostorni informacijski sustavi.",
+				"Možda je to netko tako namjerno napravio?"];
   
   document.onkeydown = keydown; 
   
@@ -50,9 +69,6 @@
   var student_id = localStorage.getItem('student_id');
   
   console.log(device, student_id);
-  
-  
- 
   
 	function keydown (evt) { 
     if (!evt) evt = event; 
@@ -173,7 +189,7 @@
   var tekst_prepis = "99";
   var clipboard = "";
   
-  zadatak_cpaste(array[count]);
+  zadatak_cpaste(recenice[count]);
   count++;
   
   }
