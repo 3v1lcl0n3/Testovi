@@ -3,6 +3,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link  rel="stylesheet" href="css/style_dva.css">
 	<style>
+	#smartguide-1251422910{
+	visibility: hidden;
+	}
 	
 	#Task_form,.tekst{
 	touch-action: none;
@@ -565,11 +568,13 @@ gest.addGesture("Copy", circle, callback)
         hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
       },
       v4: {
-        export: {
-          jiix: {
-            strokes: true
-          }
-        }
+        text: {
+              guides: {
+                enable: true
+              },
+              smartGuide: false
+            }
+
       }
     }
   });
