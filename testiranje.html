@@ -501,7 +501,7 @@ gest.addGesture("Copy", circle, callback)
      * Retrieve the list of available recognition languages
      * @param {Object} The editor recognition parameters
      */
-    var currentLanguage = evt.target.editor.configuration.recognitionParams.v4.lang;
+    var currentLanguage = "hr_HR"
     var res = MyScript.getAvailableLanguageList();
 
     if (languageElement.options.length === 0) {
@@ -599,7 +599,6 @@ document.addEventListener('mouseup', handleMouseUp);
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
 });
-  
   
   set_zad();
 </script>
