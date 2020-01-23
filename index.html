@@ -218,6 +218,20 @@ function callback(name)
 		flag_action = 1;
 		document.getElementById("result").innerHTML = "Gremo dalje";
 	}
+	
+	if(name == "Triangle"){
+	alert("braw");
+	editorElement.editor.undo();
+	editorElement.editor.undo();
+	}
+	if(name == "Check"){
+	alert("nuuh");
+	editorElement.editor.undo();
+	editorElement.editor.redo();
+	
+	}
+	
+	
 }
 
 var gest = new gestures({
