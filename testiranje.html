@@ -34,6 +34,9 @@
   <body>	
   
   <script>
+  var start = performance.now();
+  var za_ispis = "";
+  var user_log = "";
   var count = 0;
   var flag_input = 0;
   var flag_action = 0;
@@ -236,13 +239,19 @@ function callback(name)
 	console.log(device);
 	console.log(name);
 	console.log(flag_action);
+	user_log = user_log + name + "\n";
 	
 	if (zadatak == 1 && flag_input == 1 && device == "tablet" && name == "Square" && flag_action == 1){
 		document.getElementById("Task_input").value = clipboard;
 		document.getElementById("result").innerHTML = "Pasted";
 		
-		if(document.getElementById("Task_input").value == rijesenje) set_zad();
-		
+		if(document.getElementById("Task_input").value == rijesenje) {
+		set_zad();
+		var time_split =  performance.now();
+		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s, greške: .\n";
+		start = time_split;
+		console.log(za_ispis);
+			}
 		}
 	else if (zadatak == 2 && flag_input == 1 && device == "tablet" && name == "Circle"){
 		flag_action = 1;
@@ -372,13 +381,6 @@ gest.addGesture("Triangle", [
 	{x: 0, y: 0}
 ], callback);
 
-gest.addGesture("Equilateral Triangle", [
-	{x: 0, y: 0},
-	{x: 50, y: 87},
-	{x: 100, y: 0},
-	{x: 0, y: 0}
-], callback);
-
 gest.addGesture("Check", [
 	{x: 0, y: 0},
 	{x: 50, y: 50},
@@ -464,6 +466,7 @@ gest.addGesture("Circle", circle, callback)
 		plain_text = plain_text.substring(0, plain_text.lastIndexOf("\""));
 		console.log(plain_text);
 		document.getElementById("Task_output").innerHTML = plain_text;
+		user_log = user_log + plain_text + "\n";
 		old = plain_text;
         } else {
 		  document.getElementById("Task_output").innerHTML = '';
