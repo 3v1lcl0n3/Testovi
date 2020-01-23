@@ -20,11 +20,11 @@ function startTest() {
 	window.location.href = "testiranje.html";
 }
 
-function downloadResults(var string) {
+/*function downloadResults(string) {
 	var blob = new Blob([string], {type: "text/plain;charset=utf-8"});
 	var date = new Date();
 	var currentDate = [date.getFullYear(), date.getMonth(), date.getDate()].join('');
 	var currentTime = [date.getHours(), date.getMinutes(), date.getSeconds()].join('');
 	var fileName = "keyboard_exp_" + currentDate + "_" + currentTime + ".csv";
 	saveAs(blob, fileName);
-}
+}*/
