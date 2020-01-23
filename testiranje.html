@@ -57,26 +57,17 @@
   var rijesenje = "";
   var tekst_prepis = "99";
   var clipboard = "";
-  var recenice = ["Ban", 
-				"Rok za predaju će biti naknadno dogovoren.", 
-				"Pametnim telefonom snimiti očitanja osjetila linearne akceleracije i procjene položaja.", 
-				"Izvori: OpenStreetMap (2019).",  
-				"Naći ćemo se u predvorju Pomorskog fakulteta u Rijeci (prizemlje).",
-				"Pošaljite mail ako je nešto slučajno ostalo nejasno.",
-				"Samo Galaxy S12 može snimati ‘n’ i ‘o’ RINEX datoteke.",
-				"Podaci za Graz se mogu preuzeti s NASA-inog IGS poslužitelja.",
-				"Lokacija objekta je mjesto na kojem se u prostoru informacija i zadanom trenutku nalazi objekt.",
-				"Cilj ove vježbe je uspostaviti radno okruženje R na svom osobnom računalu.",
-				"Potrebni materijal za izradu projekta tokom nastave 18.11.2019. nije postavljen zbog tehničkih razloga.",
-				"Poveznica: rstudio.com/products/rstudio/download/",
-				"Dobra programerska praksa nalaže početak programa (R skripte) s čišćenjem radne površine.",
-				"Iscrtavanje GNSS pogrešaka položaja na OSM karti.",
-				"Tehnološki izazovi: antene, neosjetljivost satelitske navigacije na prirodna i umjetna ometanja…",
-				"Na najljepšem zaljevu na svijetu nema mjesta za jednog od nas!",
-				"Inteligencija - obilježje uspješnog snalaženja u novim situacijama.",
-				"Umjetna inteligencija je interdisciplinarna znanost (uključuje biologiju, fiziku, računarstvo, psihologiju itd.).",
-				"Ovo su tri noge barskog stolca: javne pokretne mreže, postupci određivanja položaja i geoprostorni informacijski sustavi.",
-				"Možda je to netko tako namjerno napravio?"];
+  var recenice = ["Materijal za izradu domaćih zadaća je na zajedničkom repozitoriju", 
+				"Rok za predaju će biti naknadno dogovoren", 
+				"Naći ćemo se u predvorju Pomorskog fakulteta u Rijeci (prizemlje)",
+				"Pošaljite mail ako je nešto slučajno ostalo nejasno",
+				"Podaci za Graz se mogu preuzeti s NASA-inog IGS poslužitelja",
+				"Cilj ove vježbe je uspostaviti radno okruženje R na svom osobnom računalu",
+				"Iscrtavanje GNSS pogrešaka položaja na OSM karti",
+				"Na najljepšem zaljevu na svijetu nema mjesta za jednog od nas",
+				"Inteligencija - obilježje uspješnog snalaženja u novim situacijama",
+				"Možda je to netko tako namjerno napravio",
+				"KRAJ ZADATKA"];
   
   document.onkeydown = keydown; 
   
@@ -146,13 +137,13 @@
   rijesenje = rnd_word;
   //za tipkovnicu i mis
   if(device == "keyboard") {
-  document.getElementById("opis_zad").innerHTML = "Napiši rečenicu\" " + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ"+ rnd_word +" kopiraj kraticom ctr + c, označi donji prostor i zalijepi kraticom ctrl + v.";
+  document.getElementById("opis_zad").innerHTML = "Napiši rečenicu \"" + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ"+ rnd_word +" kopiraj kraticom ctr + c, označi donji prostor i zalijepi kraticom ctrl + v.";
   document.getElementById("Task_output2").style.visibility = "visible";
   //document.getElementById("Task_input").style.display = "none";
   
   }
   //za tablet
-  if(device == "tablet") document.getElementById("opis_zad").innerHTML = "Napiši rečenicu\" " + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - kopiraj ju izradom geste u obliku kruga i onda odabirom donjeg prostora i rađenje geste check.";
+  if(device == "tablet") document.getElementById("opis_zad").innerHTML = "Napiši rečenicu \"" + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - kopiraj ju izradom geste u obliku kruga i onda odabirom donjeg prostora i rađenje geste check.";
   
   
   
@@ -228,6 +219,12 @@
   var rijesenje = "";
   var tekst_prepis = "99";
   var clipboard = "";
+  document.getElementById("Task_input").value = "";
+  document.getElementById("Task_output").value = "";
+  document.getElementById("Task_output2").value = "";
+  for(var i = 0; i< 150; i++){
+	editorElement.editor.undo();
+  }
   
   zadatak_cpaste(recenice[count]);
   count++;
@@ -244,9 +241,11 @@
 	var time_split =  performance.now();
 	za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s\n";
 	start = time_split;
-	if (count == 2){
+	if (count == 11){
 		downloadResults(za_ispis, "Time_Log");
 		downloadResults(user_log, "User_Log");
+		document.getElementById("tekst_zad").innerHTML = "";
+		document.getElementById("Opis").innerHTML = "Gotovi ste s modalitetom rada";
 	}
 	
 	}
@@ -303,7 +302,7 @@
     <script type="text/javascript">
 function callback(name)
 {
-	document.getElementById("result").innerHTML = "Result: " + name;
+	//document.getElementById("result").innerHTML = "Result: " + name;
 	console.log(zadatak);
 	console.log(flag_input);
 	console.log(device);
@@ -344,7 +343,7 @@ function callback(name)
 	}
 	
 	if(rightMouseClicked == true && name == "Undo"){
-	alert("braw");
+	document.getElementById("result").innerHTML = "Undone";
 	editorElement.editor.undo();
 	editorElement.editor.undo();
 	}
