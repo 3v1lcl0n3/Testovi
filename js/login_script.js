@@ -14,5 +14,5 @@ function startTest() {
 	console.log(id_studenta);
 	console.log(device);
 	
-	window.location.href = "pocetak.html";
+	window.location.href = "testiranje.html";
 }
