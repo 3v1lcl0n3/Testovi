@@ -34,12 +34,15 @@
   <body>	
   
   <script>
+  var count = 0;
   var flag_input = 0;
   var flag_action = 0;
-  var zadatak = 1;
+  var zadatak = 0;
   var rijesenje = "";
   var tekst_prepis = "99";
   var clipboard = "";
+  var array = ["Banana", "Jabuka", "Kruška"];
+  
   document.onkeydown = keydown; 
   
   var device = localStorage.getItem('device');
@@ -83,6 +86,7 @@
     }
 
 }
+
   
   function zadatak_cpaste(tekst_zad){
   zadatak = 1;
@@ -150,7 +154,7 @@
   flag_action = 0;
   }
   
-  function kreniTest(){
+  /*function kreniTest(){
   
   console.log("test");
   //document.getElementById("login").style.visibility = "hidden";
@@ -160,7 +164,20 @@
   tekst_prepis = "kratko"
   zadatak_cpaste(tekst_prepis);
   
+  }*/
+  
+  function set_zad(){
+  var flag_input = 0;
+  var flag_action = 0;
+  var rijesenje = "";
+  var tekst_prepis = "99";
+  var clipboard = "";
+  
+  zadatak_cpaste(array[count]);
+  count++;
+  
   }
+  
   
   function check(){
   
@@ -224,6 +241,9 @@ function callback(name)
 	if (zadatak == 1 && flag_input == 1 && device == "tablet" && name == "Square" && flag_action == 1){
 		document.getElementById("Task_input").value = clipboard;
 		document.getElementById("result").innerHTML = "Pasted";
+		
+		if(document.getElementById("Task_input").value == rijesenje) set_zad();
+		
 		}
 	else if (zadatak == 2 && flag_input == 1 && device == "tablet" && name == "Circle"){
 		flag_action = 1;
@@ -480,6 +500,9 @@ gest.addGesture("Circle", circle, callback)
   window.addEventListener('resize', function () {
     editorElement.editor.resize();
   });
+  
+  
+  set_zad();
 </script>
 
   </body>
