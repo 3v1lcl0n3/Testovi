@@ -25,6 +25,121 @@
 	background: tomato;
 	color:white;
 	}
+	
+	.menu {
+  position: absolute;
+  width: 200px;
+  padding: 2px;
+  margin: 0;
+  border: 1px solid #bbb;
+  background: #eee;
+  background: -webkit-linear-gradient(to bottom, #fff 0%, #e5e5e5 100px, #e5e5e5 100%);
+  background: linear-gradient(to bottom, #fff 0%, #e5e5e5 100px, #e5e5e5 100%);
+  z-index: 100;
+  border-radius: 3px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+  opacity: 0;
+  -webkit-transform: translate(0, 15px) scale(.95);
+  transform: translate(0, 15px) scale(.95);
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+  pointer-events: none;
+}
+
+.menu-item {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.menu-btn {
+  background: none;
+  line-height: normal;
+  overflow: visible;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  display: block;
+  width: 100%;
+  color: #444;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 8px;
+  border-radius: 3px;
+}
+ .menu-btn::-moz-focus-inner, .menu-btn::-moz-focus-inner {
+ border: 0;
+ padding: 0;
+}
+
+.menu-text { margin-left: 25px; }
+
+.menu-btn .fa {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.menu-item:hover > .menu-btn {
+  color: #fff;
+  outline: none;
+  background-color: #2E3940;
+  background: -webkit-linear-gradient(to bottom, #5D6D79, #2E3940);
+  background: linear-gradient(to bottom, #5D6D79, #2E3940);
+  border: 1px solid #2E3940;
+}
+
+.menu-item.disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.menu-item.disabled .menu-btn { cursor: default; }
+
+.menu-separator {
+  display: block;
+  margin: 7px 5px;
+  height: 1px;
+  border-bottom: 1px solid #fff;
+  background-color: #aaa;
+}
+
+.menu-item.submenu::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left-color: #808080;
+}
+
+.menu-item.submenu:hover::after { border-left-color: #fff; }
+
+.menu .menu {
+  top: 4px;
+  left: 99%;
+}
+
+.show-menu, .menu-item:hover > .menu {
+  opacity: 1;
+  -webkit-transform: translate(0, 0) scale(1);
+  transform: translate(0, 0) scale(1);
+  pointer-events: auto;
+}
+
+.menu-item:hover > .menu {
+  -webkit-transition-delay: 100ms;
+  transition-delay: 300ms;
+}
 	</style>
 	
 	<meta charset="UTF-8">
@@ -39,14 +154,109 @@
 	<script type="text/javascript" src="./dist/myscript.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script> <!-- File saver skripta -->
 	<script src = "js/login_script.js"></script> <!--Moja skripta u kojoj je save (ime funkcije: downloadResults(var string) -->
+	<script src = "js/jquery-3.4.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.js"></script>
   </head>
   
   <body>	
   <div class = "container" id="container">
+  <menu class="menu">
+  <li class="menu-item">
+    <button type="button" class="menu-btn"> <i class="fa fa-folder-open"></i> <span class="menu-text">Open</span> </button>
+  </li>
+  <li class="menu-item disabled">
+    <button type="button" class="menu-btn"> <span class="menu-text">Open in New Window</span> </button>
+  </li>
+  <li class="menu-separator"></li>
+  <li class="menu-item">
+    <button type="button" class="menu-btn" onClick="kopiraj()"> <i class="fa fa-reply"></i> <span class="menu-text">Copy</span> </button>
+  </li>
+  <li class="menu-item">
+    <button type="button" class="menu-btn" onClick="pasteaj()"> <i class="fa fa-star"></i> <span class="menu-text">Paste</span> </button>
+  </li>
+  <li class="menu-item submenu">
+    <button type="button" class="menu-btn"> <i class="fa fa-users"></i> <span class="menu-text">Social</span> </button>
+    <menu class="menu">
+      <li class="menu-item">
+        <button type="button" class="menu-btn"> <i class="fa fa-comment"></i> <span class="menu-text">Comment</span> </button>
+      </li>
+      <li class="menu-item submenu">
+        <button type="button" class="menu-btn"> <i class="fa fa-share"></i> <span class="menu-text">Share</span> </button>
+        <menu class="menu">
+          <li class="menu-item">
+            <button type="button" class="menu-btn"> <i class="fa fa-twitter"></i> <span class="menu-text">Twitter</span> </button>
+          </li>
+          <li class="menu-item">
+            <button type="button" class="menu-btn"> <i class="fa fa-facebook-official"></i> <span class="menu-text">Facebook</span> </button>
+          </li>
+          <li class="menu-item">
+            <button type="button" class="menu-btn"> <i class="fa fa-google-plus"></i> <span class="menu-text">Google Plus</span> </button>
+          </li>
+          <li class="menu-item">
+            <button type="button" class="menu-btn"> <i class="fa fa-envelope"></i> <span class="menu-text">Email</span> </button>
+          </li>
+        </menu>
+      </li>
+    </menu>
+  </li>
+  <li class="menu-separator"></li>
+  <li class="menu-item">
+    <button type="button" class="menu-btn"> <i class="fa fa-download"></i> <span class="menu-text">Save</span> </button>
+  </li>
+  <li class="menu-item">
+    <button type="button" class="menu-btn"> <i class="fa fa-edit"></i> <span class="menu-text">Rename</span> </button>
+  </li>
+  <li class="menu-item">
+    <button type="button" class="menu-btn"> <i class="fa fa-trash"></i> <span class="menu-text">Delete</span> </button>
+  </li>
+</menu>
+  
+  <script>
+  var menu = document.querySelector('.menu');
+
+function showMenu(x, y){
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+    if(device == "keyboard") menu.classList.add('show-menu');
+}
+
+function hideMenu(){
+    menu.classList.remove('show-menu');
+}
+
+function onContextMenu(e){
+    e.preventDefault();
+    showMenu(e.pageX, e.pageY);
+    document.addEventListener('click', onClick, false);
+}
+
+function onClick(e){
+    hideMenu();
+    document.removeEventListener('click', onClick);
+}
+
+document.addEventListener('contextmenu', onContextMenu, false);
+
+     
+/*document.addEventListener("contextmenu", function(e){
+    if(device == "tablet")e.preventDefault();
+	else {
+	//e.preventDefault();
+	}
+}, false);*/
+//Calling context menu
+ //$('.testButton').contextMenu(menu);
+  </script>
+  
+  
   <script>
   
 
-  var start = performance.now();
+  var start = 0;
+  var bool = 0;
+  var time_kraj_unosa = 0;
+  var time_kraj_copy = 0;
+  var time_kraj_paste = 0;
   var rightMouseClicked = false;
   var za_ispis = "";
   var user_log = "";
@@ -57,16 +267,12 @@
   var rijesenje = "";
   var tekst_prepis = "99";
   var clipboard = "";
-  var recenice = ["Materijal za izradu domaćih zadaća je na zajedničkom repozitoriju", 
-				"Rok za predaju će biti naknadno dogovoren", 
-				"Naći ćemo se u predvorju Pomorskog fakulteta u Rijeci (prizemlje)",
-				"Pošaljite mail ako je nešto slučajno ostalo nejasno",
-				"Podaci za Graz se mogu preuzeti s NASA-inog IGS poslužitelja",
-				"Cilj ove vježbe je uspostaviti radno okruženje R na svom osobnom računalu",
-				"Iscrtavanje GNSS pogrešaka položaja na OSM karti",
-				"Na najljepšem zaljevu na svijetu nema mjesta za jednog od nas",
-				"Inteligencija - obilježje uspješnog snalaženja u novim situacijama",
-				"Možda je to netko tako namjerno napravio",
+  var recenice = [
+				"Today is a nice day", 
+				"This is short",
+				"I'm halfway there",
+				"A little bit more",
+				"This is the last sentence",
 				"KRAJ ZADATKA"];
   
   document.onkeydown = keydown; 
@@ -126,6 +332,24 @@
     }
 
 }
+	
+  function kopiraj(){
+  if(flag_action == 1 && device == "keyboard") {clipboard = window.getSelection().toString();
+  document.getElementById("result").innerHTML = "Copied";
+  time_kraj_copy = performance.now() - start;
+  start = time_kraj_copy;
+  console.log("done copy");
+  }
+  }
+  
+  function pasteaj(){
+  if(device == "keyboard")check();
+  document.getElementById("result").innerHTML = "Pasted";
+  time_kraj_paste = performance.now() - start;
+  start = time_kraj_paste;
+  console.log("done paste");
+  }
+  
 
   
   function zadatak_cpaste(tekst_zad){
@@ -137,9 +361,11 @@
   rijesenje = rnd_word;
   //za tipkovnicu i mis
   if(device == "keyboard") {
-  document.getElementById("opis_zad").innerHTML = "Napiši rečenicu \"" + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ"+ rnd_word +" kopiraj kraticom ctr + c, označi donji prostor i zalijepi kraticom ctrl + v.";
+  document.getElementById("opis_zad").innerHTML = "Napiši rečenicu \"" + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ "+ rnd_word +" kopiraj kraticom ctr + c, označi donji prostor i zalijepi kraticom ctrl + v.";
   document.getElementById("Task_output2").style.visibility = "visible";
   //document.getElementById("Task_input").style.display = "none";
+  document.getElementById("editor").style.display = "none";
+  document.getElementById("navigator").style.display = "none";
   
   }
   //za tablet
@@ -195,10 +421,13 @@
   
   function zad_focus(){
   flag_action = 1;
+  if(bool == 0)start = performance.now();
+  bool = 1;
+  
   }
   
   function zad_blur(){
-  flag_action = 0;
+  if(device == "tablet") flag_action = 0;
   }
   
   /*function kreniTest(){
@@ -214,6 +443,7 @@
   }*/
   
   function set_zad(){
+  bool = 0;
   var flag_input = 0;
   var flag_action = 0;
   var rijesenje = "";
@@ -234,25 +464,29 @@
   
   
   function check(){
-  
-	if(document.getElementById("Task_output").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje) alert("ovo je super?");
-	if(document.getElementById("Task_output2").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje) {
+    console.log(document.getElementById("Task_output2").value);
+	console.log(tekst_prepis);
+	console.log(clipboard);
+	console.log(rijesenje);
+	
+	if(document.getElementById("Task_output2").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje || clipboard == rijesenje ||document.getElementById("Task_output").value == tekst_prepis && document.getElementById("Task_input").value == rijesenje ){
+	
+	//time_kraj_paste = performance.now() - start;
+    //start = time_kraj_paste;
+	//console.log("done paste");
 	set_zad();
 	var time_split =  performance.now();
-	za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s\n";
+	za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: kraj unosa" + time_kraj_unosa + " kraj copy" + time_kraj_copy +" kraj paste" + time_kraj_paste+ "s\n";
 	start = time_split;
-	if (count == 11){
+	time_split2 = 0;
+	if (count == 6){
 		downloadResults(za_ispis, "Time_Log");
 		downloadResults(user_log, "User_Log");
-		document.getElementById("tekst_zad").innerHTML = "";
-		document.getElementById("Opis").innerHTML = "Gotovi ste s modalitetom rada";
+		document.getElementById("ime_zad").innerHTML = "";
+		document.getElementById("opis_zad").innerHTML = "Gotovi ste s modalitetom rada";
 	}
 	
 	}
-	console.log(document.getElementById("Task_output").value);
-	console.log(tekst_prepis);
-	console.log(document.getElementById("Task_input").value);
-	console.log(rijesenje);
   }
   
   </script>
@@ -277,12 +511,12 @@
 		<br class="tekst">
 		<br class="tekst">
 		<h4 class="tekst">Ovdje zalijepiti:</h4> <br> <br>
-		<input class = "form-control" type="text"id="Task_input" onfocus="zad_focus()" onblur="zad_blur()" oninput="check()" onkeypress='validate(event)' ><br>
+		<input class = "form-control" type="text"id="Task_input" onfocus="zad_focus()" onfocus="zad_blur" oninput="check()" ><br>
 	</div>
 	<h3 class="tekst" id='result' >Result: </h3>
 	<br> <br> <br>
 	<div>
-  <nav>
+  <nav id="navigator">
     <div class="button-div">
       <button id="undo" class="nav-btn btn-fab-mini btn-lightBlue" disabled>
         <img src="./assets/undo.svg">
@@ -315,11 +549,13 @@ function callback(name)
 		document.getElementById("result").innerHTML = "Pasted";
 		
 		if(document.getElementById("Task_input").value == rijesenje) {
+		//time_kraj_paste = performance.now() - start;
+        //start = time_kraj_paste;
 		set_zad();
 		var time_split =  performance.now();
-		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: " + ((time_split - start)/ 1000).toFixed(2) + "s\n";
+		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: kraj unosa" + time_kraj_unosa + " kraj copy" + time_kraj_copy +" kraj paste" + time_kraj_paste+ "s\n";
 		start = time_split;
-		if (count == 2){
+		if (count == 6){
 			downloadResults(za_ispis, "Time_Log");
 			downloadResults(user_log, "User_Log");
 		}
@@ -341,12 +577,12 @@ function callback(name)
 		flag_action = 1;
 		document.getElementById("result").innerHTML = "Gremo dalje";
 	}
-	
+	/*
 	if(rightMouseClicked == true && name == "Undo"){
 	document.getElementById("result").innerHTML = "Undone";
 	editorElement.editor.undo();
 	editorElement.editor.undo();
-	}
+	}*/
 	/*if(name == "Check"){
 	alert("nuuh");
 	editorElement.editor.undo();
@@ -438,12 +674,12 @@ gest.addGesture("Rectangle", [
 	{x: 0, y: 0}
 ], callback);
 */
-gest.addGesture("Undo", [
+/*gest.addGesture("Undo", [
 	{x: 0, y: 0},
 	{x: 50, y: 87},
 	{x: 100, y: 0},
 	{x: 150, y: 87}
-], callback);
+], callback);*/
 /*
 gest.addGesture("Triangle", [
 	{x: 0, y: 0},
@@ -475,12 +711,7 @@ for(var angle = 1; angle < totalPoints; angle++)
 gest.addGesture("Copy", circle, callback)
 </script>
 <script>
-	document.addEventListener("contextmenu", function(e){
-    e.preventDefault();
-	
-}, false);
-
-
+/*
 	function validate(evt) {
    var theEvent = evt || window.event;
    var key = theEvent.charCode || theEvent.which;
@@ -491,7 +722,7 @@ gest.addGesture("Copy", circle, callback)
 	}
 	
 	
-	}
+	}*/
   var editorElement = document.getElementById('editor');
 
   var languageElement = document.getElementById('language');
@@ -509,7 +740,7 @@ gest.addGesture("Copy", circle, callback)
      * Retrieve the list of available recognition languages
      * @param {Object} The editor recognition parameters
      */
-    var currentLanguage = "hr_HR"
+    var currentLanguage = evt.target.editor.configuration.recognitionParams.v4.lang;
     var res = MyScript.getAvailableLanguageList();
 
     if (languageElement.options.length === 0) {
@@ -543,6 +774,23 @@ gest.addGesture("Copy", circle, callback)
 		plain_text = plain_text.substring(0, plain_text.lastIndexOf("\""));
 		console.log(plain_text);
 		document.getElementById("Task_output").innerHTML = plain_text;
+		console.log(tekst_prepis);
+		if(bool == 0)start = performance.now();
+        bool = 1;
+		
+		if(tekst_prepis == plain_text){
+		//tu zavrsava unos
+		time_kraj_unosa = performance.now() - start;
+		start = time_kraj_unosa;
+		console.log("pls");
+		}
+		
+		if(rijesenje == plain_text){
+		
+		
+		var time_split2 = performance.now();
+		user_log = user_log + "Napisano:" + time_split2 + "\n";
+		}
 		user_log = user_log + plain_text + "\n";
 		old = plain_text;
         } else {
@@ -606,13 +854,16 @@ function handleMouseUp(e) {
 
 document.addEventListener('mousedown', handleMouseDown);
 document.addEventListener('mouseup', handleMouseUp);
-document.addEventListener('contextmenu', function(e) {
+/*document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
-});
+});*/
   
   set_zad();
 </script>
 
 	</div>
 </body>
+
+
+
 </html>
