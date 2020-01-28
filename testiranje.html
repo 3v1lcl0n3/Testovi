@@ -242,6 +242,7 @@ document.addEventListener('contextmenu', onContextMenu, false);
   
   <script>
   
+  
   var start = 0;
   var start_unos = 0;
   var bool = 0;
@@ -257,7 +258,7 @@ document.addEventListener('contextmenu', onContextMenu, false);
   var flag_action = 0;
   var zadatak = 0;
   var rijesenje = "";
-  var tekst_prepis = "99";
+  var tekst_prepis = "random text";
   var clipboard = "";
   var recenice = [
 				"Today is a nice day", 
@@ -355,11 +356,11 @@ document.addEventListener('contextmenu', onContextMenu, false);
   
   function set_zad(){
   bool = 0;
-  var flag_input = 0;
-  var flag_action = 0;
-  var rijesenje = "";
-  var tekst_prepis = "random text";
-  var clipboard = "";
+  flag_input = 0;
+  flag_action = 0;
+  rijesenje = "";
+  tekst_prepis = "random text";
+  clipboard = "";
   document.getElementById("Task_input").value = "";
   document.getElementById("Task_output").value = "";
   document.getElementById("Task_output2").value = "";
@@ -407,12 +408,12 @@ document.addEventListener('contextmenu', onContextMenu, false);
 	<div  id="action_part">
 		<h3 id="Task_output" contenteditable="true" tabindex="0">
 		</h3>
-		<input class = "form-control" type="text" id="Task_output2" onfocus="zad_focus()" onblur="zad_blur()" oninput="loggaj()" style="visibility:hidden;" >
+		<input class = "form-control" type="text" id="Task_output2"  oninput="loggaj()" style="visibility:hidden;" >
 		<br class="tekst">
 		<br class="tekst">
 		<br class="tekst">
 		<h4 class="tekst">Ovdje zalijepiti:</h4> <br> <br>
-		<input class = "form-control" type="text"id="Task_input" onfocus="zad_focus()" oninput="check()" ><br>
+		<input class = "form-control" type="text"id="Task_input" onclick="zad_focus()" oninput="check()" ><br>
 	</div>
 	<h3 class="tekst" id='result' >Result: </h3>
 	<br> <br> <br>
@@ -452,7 +453,7 @@ function callback(name)
 	}
 	
 	
-	if (zadatak == 1 && flag_input == 1 && device == "tablet" && name == "Paste" && flag_action == 1 && rightMouseClicked == true){
+	if (flag_input == 1 && device == "tablet" && name == "Paste" && flag_action == 1 && rightMouseClicked == true && rijesenje == clipboard){
 		document.getElementById("Task_input").value = clipboard;
 		time_kraj_paste = performance.now() - (time_kraj_copy + time_kraj_unosa + do_unosa);
         document.getElementById("result").innerHTML = "Pasted";
@@ -710,6 +711,7 @@ function handleMouseUp(e) {
     rightMouseClicked = false;
   }
   console.log(rightMouseClicked);
+  console.log("zasto i kada: " + flag_action);
 }
 
 document.addEventListener('mousedown', handleMouseDown);
