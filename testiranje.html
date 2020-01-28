@@ -217,7 +217,10 @@
 function showMenu(x, y){
     menu.style.left = x + 'px';
     menu.style.top = y + 'px';
-    if(device == "keyboard") menu.classList.add('show-menu');
+    if(device == "keyboard") {
+	menu.classList.add('show-menu');
+	time_now = performance.now();
+	}
 }
 
 function hideMenu(){
@@ -242,10 +245,13 @@ document.addEventListener('contextmenu', onContextMenu, false);
   
   <script>
   
-  
+  var time_now = 0;
+  var za_copy = 0;
+  var za_paste = 0;
   var start = 0;
   var start_unos = 0;
   var bool = 0;
+  var nisam_copy = 0
   var time_kraj_unosa = 0;
   var time_kraj_copy = 0;
   var time_kraj_paste = 0;
@@ -261,12 +267,32 @@ document.addEventListener('contextmenu', onContextMenu, false);
   var tekst_prepis = "random text";
   var clipboard = "";
   var recenice = [
-				"Today is a nice day", 
-				"This is short",
-				"I'm halfway there",
-				"A little bit more",
-				"This is the last sentence",
-				"KRAJ ZADATKA"];
+				"nice", 
+				"banana",
+				"apple",
+				"human",
+				"computer",
+				"interaction",
+				"keyboard", 
+				"balloon",
+				"university",
+				"test",
+				"box",
+				"tired",
+				"annoying", 
+				"stop",
+				"almost",
+				"lied",
+				"sorry",
+				"bruh",
+				"five",
+				"more", 
+				"close",
+				"now",
+				"thanks",
+				"finally",
+				"done",
+				"GOTOV RAD"];
   
   //document.onkeydown = keydown; 
   
@@ -306,9 +332,16 @@ document.addEventListener('contextmenu', onContextMenu, false);
   if(flag_action == 1 && device == "keyboard") {clipboard = window.getSelection().toString();
   document.getElementById("result").innerHTML = "Copied";
   time_kraj_copy = performance.now() - (time_kraj_unosa + do_unosa);
+  
   console.log(time_kraj_copy);
   console.log("done copy");
   console.log("počinjem log");
+  if(nisam_copy == 0) {
+  za_copy = performance.now() - time_now;
+  nisam_copy = 1;
+  }
+  if(flag_action == 1) za_paste = performance.now() - time_now;
+  
   }
   }
   
@@ -332,7 +365,7 @@ document.addEventListener('contextmenu', onContextMenu, false);
   rijesenje = rnd_word;
   //za tipkovnicu i mis
   if(device == "keyboard") {
-  document.getElementById("opis_zad").innerHTML = "Napiši rečenicu \"" + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ "+ rnd_word +" kopiraj kraticom ctr + c, označi donji prostor i zalijepi kraticom ctrl + v.";
+  document.getElementById("opis_zad").innerHTML = "Napiši rečenicu \"" + tekst_zad +"\", potom označi riječ \"" + rnd_word + "\" - Zatim kopiraj riječ "+ rnd_word +" kopiraj desnim klikom i opcijom copy, označi donji prostor i zalijepi desnim klikom i opcijom paste";
   document.getElementById("Task_output2").style.visibility = "visible";
   //document.getElementById("Task_input").style.display = "none";
   document.getElementById("editor").style.display = "none";
@@ -347,7 +380,7 @@ document.addEventListener('contextmenu', onContextMenu, false);
   
   function zad_focus(){
   flag_action = 1;
-  
+  if(device == "tablet") time_now = performance.now();
   }
   
   function zad_blur(){
@@ -358,6 +391,7 @@ document.addEventListener('contextmenu', onContextMenu, false);
   bool = 0;
   flag_input = 0;
   flag_action = 0;
+  nisam_copy = 0;
   rijesenje = "";
   tekst_prepis = "random text";
   clipboard = "";
@@ -387,8 +421,8 @@ document.addEventListener('contextmenu', onContextMenu, false);
     //start = time_kraj_paste;
 	//console.log("done paste");
 	set_zad();
-	za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: kraj unosa: " + time_kraj_unosa / 1000 + "s, kraj copy: " + time_kraj_copy / 1000 +"s, kraj paste: " + time_kraj_paste / 1000 + "s\n";
-	if (count == 6){
+	za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: kraj unosa: " + time_kraj_unosa / 1000 +"s, za copy: " + za_copy + " ms" +"s, kraj copy: " + time_kraj_copy / 1000 + ",s za paste: " + za_paste+ "ms, kraj paste: " + time_kraj_paste / 1000 + "s\n";
+	if (count == 26){
 		downloadResults(za_ispis, "Time_Log");
 		downloadResults(user_log, "User_Log");
 		document.getElementById("ime_zad").innerHTML = "";
@@ -408,7 +442,7 @@ document.addEventListener('contextmenu', onContextMenu, false);
 	<div  id="action_part">
 		<h3 id="Task_output" contenteditable="true" tabindex="0">
 		</h3>
-		<input class = "form-control" type="text" id="Task_output2"  oninput="loggaj()" style="visibility:hidden;" >
+		<input class = "form-control" type="text" id="Task_output2"  onclick="zad_focus()" oninput="loggaj()" style="visibility:hidden;" >
 		<br class="tekst">
 		<br class="tekst">
 		<br class="tekst">
@@ -439,15 +473,8 @@ document.addEventListener('contextmenu', onContextMenu, false);
 function callback(name)
 {
 	//document.getElementById("result").innerHTML = "Result: " + name;
-	console.log("===========");
-	console.log(zadatak);
-	console.log(flag_input);
-	console.log(device);
-	console.log(name);
-	console.log(flag_action);
-	console.log(rightMouseClicked);
-	console.log("===========");
-	user_log = user_log + name + "\n";
+	
+	user_log = user_log + "===========\n" + flag_input+ "\n" + name + "\n" + flag_action + "\n" + rightMouseClicked + "\n" + "===========\n" + "\n";
 	if ( device == "tablet" && name == "Paste" && rightMouseClicked == true){
 	document.getElementById("result").innerHTML = "Tried to paste, but nothing in clipboard";
 	}
@@ -457,13 +484,14 @@ function callback(name)
 		document.getElementById("Task_input").value = clipboard;
 		time_kraj_paste = performance.now() - (time_kraj_copy + time_kraj_unosa + do_unosa);
         document.getElementById("result").innerHTML = "Pasted";
+		za_paste = performance.now() - time_now;
 		
 		if(document.getElementById("Task_input").value == rijesenje) {
 		//time_kraj_paste = performance.now() - start;
         //start = time_kraj_paste;
 		set_zad();
-		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: kraj unosa: " + time_kraj_unosa / 1000 + "s, kraj copy: " + time_kraj_copy / 1000 +"s, kraj paste: " + time_kraj_paste / 1000 + "s\n";
-		if (count == 6){
+		za_ispis = za_ispis + "Zadatak: " + (count - 1) + ", vrijeme: kraj unosa: " + time_kraj_unosa / 1000 +"s, za copy: " + za_copy + " ms" +"s, kraj copy: " + time_kraj_copy / 1000 + ",s za paste: " + za_paste+ "ms, kraj paste: " + time_kraj_paste / 1000 + "s\n";
+		if (count == 26){
 			downloadResults(za_ispis, "Time_Log");
 			downloadResults(user_log, "User_Log");
 		}
@@ -478,6 +506,7 @@ function callback(name)
 	console.log(time_kraj_copy);
 	console.log("done copy");
 	console.log("počinjem log");
+	za_copy = performance.now() - time_now;
 	}
 	else if(rightMouseClicked == true && name == "Copy"){
 	document.getElementById("result").innerHTML = "Tried to copy, but empty selection";
@@ -513,7 +542,7 @@ function select() {
   if (window.getSelection) {
 	clipboard = window.getSelection().toString();
     sel = window.getSelection();
-	
+	if (sel == rijesenje) time_now = performance.now();
     if (sel.getRangeAt && sel.rangeCount) {
       return sel.getRangeAt(0);
     }
